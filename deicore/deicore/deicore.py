@@ -28,7 +28,7 @@ def getLevels():
    return json.dumps(levels)
 
 @app.route("/api/regularRound/<int:groupNumber>")
-def regularRoundAdult(groupNumber):
+def regularRound(groupNumber):
    collections = list(db.regularRound.find({"group" : groupNumber}))
    shuffle(collections)
    data = []
@@ -38,4 +38,14 @@ def regularRoundAdult(groupNumber):
       qCount += 1
    return json.dumps(data)
    
-
+@app.route("/api/pictureRound/<int:groupNumber>")
+def pictureRound(groupNumber):
+   collections = list(db.pictureRound.find({"group": groupNumber}))
+   shuffle(collections)
+   data = []
+   qCount = 1
+   for doc in collections:
+      data.append(parseRegularRoundtoDict(doc, qCount))
+      qCount += 1
+   print(data)
+   return json.dumps(data)
